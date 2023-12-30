@@ -9,7 +9,7 @@ setup(
     author='Toshihiko Arai',
     author_email='i.officearai@gmail.com',
     license='MIT',
-    url='https://github.com/aragig/gifify',
+    url='https://github.com/aragig/historee',
     install_requires=[
     ],
     classifiers=[
