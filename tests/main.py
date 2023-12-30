@@ -33,6 +33,13 @@ class TestHistoryManager(unittest.TestCase):
         manager.add_history("アクションテスト２")
         self.assertTrue(manager.history_exists("アクションテスト２"))
 
+    def test_is_newer_than_history(self):
+        # 履歴の更新日時を比較するテスト
+        manager = HistoryManager(self.test_file_path)
+        manager.add_history("アクションテスト３")
+        self.assertFalse(manager.is_newer_than_history("アクションテスト３", 0))
+        self.assertTrue(manager.is_newer_than_history("アクションテスト３", 99999999999))
+
 
 if __name__ == '__main__':
     unittest.main()

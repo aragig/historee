@@ -27,6 +27,13 @@ class HistoryManager:
                     'last_timestamp': float(row[2]),
                 }
 
+    def __write_history_to_file(self):
+        # 履歴データをCSVファイルに書き込む
+        with open(self.file_path, mode='w') as file:
+            for key, data in self.__history_records.items():
+                line = '{},{},{}\n'.format(key, data['text'], data['last_timestamp'])
+                file.write(line)
+
     def __generate_key(self, text):
         # テキストからMD5ハッシュキーを生成する
         return hashlib.md5(text.encode("utf-8")).hexdigest()
@@ -42,9 +49,16 @@ class HistoryManager:
         self.__history_records[key] = {'text': text, 'last_timestamp': current_timestamp}
         self.__write_history_to_file()
 
-    def __write_history_to_file(self):
-        # 履歴データをCSVファイルに書き込む
-        with open(self.file_path, mode='w') as file:
-            for key, data in self.__history_records.items():
-                line = '{},{},{}\n'.format(key, data['text'], data['last_timestamp'])
-                file.write(line)
+    def is_newer_than_history(self, text, timestamp):
+        """
+        与えられたテキストの履歴が存在し、かつ指定されたタイムスタンプよりも古いかどうかを確認する。
+
+        :param text: 履歴を検索するテキスト
+        :param timestamp: 比較するタイムスタンプ
+        :return: 履歴が存在しない、または履歴のタイムスタンプが引数のタイムスタンプより古い場合はTrue、それ以外はFalse
+        """
+        key = self.__generate_key(text)
+        history = self.__history_records.get(key)
+        if history is None:
+            return True
+        return history['last_timestamp'] < timestamp
