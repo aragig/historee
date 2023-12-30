@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 setup(
     name='historee',
-    version='0.1.0',
+    version='0.1.1',
     packages=find_packages(),
     description='アクション履歴を管理するPythonパッケージ',
     long_description=open('README.md').read(),
